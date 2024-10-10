@@ -1,0 +1,91 @@
+@startuml
+class Buzzer {
+  - pin: uint8_t
+  + Buzzer(pin: uint8_t)
+  + play(frequency: uint16_t, duration: uint32_t): void
+}
+
+class GameA {
+  - waitTime: int = 100
+  - cursor: int = 1
+  - forward: int = 1
+  - gameDifficulty: int = 0
+  - pace: int = 100
+  - arrowPosition: int = 0
+  - shouldBreak: boolean = false
+  + GameA()
+  + setup(): void
+  + loop(): void
+  - checkForWin(): void
+  - gameIncreasesDifficulty(): void
+  - handleLCDDisplay(): void
+}
+
+class GameB {
+  - decimalNumber: int = 0
+  - gameDifficulty: int = 0
+  - binaryNumber[8]: int
+  - buttonsPressed[8]: int
+  - i: int = 0
+  - shouldBreak: boolean = false
+  + GameB()
+  + setup(): void
+  + loop(): void
+  - gameIncreasesDifficulty(): void
+  - handleButton(button: uint8_t): void
+  - checkForWin(): void
+  - convertToBinary(number: int): void
+  - clearTry(): void
+  - areEqual(binaryNumber1: int[], binaryNumber2: int[]): bool
+  - didLose(binaryNumber: int[], buttonsPressed: int[]): bool
+}
+
+class GameC {
+  - playerDuration: int = 0
+  - playerNotes[30]: int
+  - playerDurations[30]: int
+  - position: int = 0
+  - frequency: int = 0
+  - shouldBreak: boolean = false
+  + GameC()
+  + setup(): void
+  + loop(): void
+  - sing(): void
+  - handleButton(button: uint8_t): void
+  - checkForWin(): void
+  - startOver(): void
+  - storeNotesSung(): void
+  - debugger(): void
+  - frequences[13]: int
+  - durations[13]: int
+}
+
+class GameD {
+  - randomNumber: int = 0
+  - gameDifficulty: int = 0
+  - shouldBreak: boolean = false
+  + GameD()
+  + setup(): void
+  + loop(): void
+  - increaseDifficulty(): void
+  - checkForWin(value: int): void
+}
+
+class LCD {
+  - lcd_cols: uint8_t
+  - lcd_rows: uint8_t
+  - lcd: LiquidCrystal_I2C
+  + LCD()
+  + LCD(lcd_cols: int, lcd_rows: int)
+  + setUp(): void
+  + setCursor(cursor: int, row: int): void
+  + write(code: int): void
+  + print(): void
+  + clear(): void
+}
+
+LCD --- GameA
+Buzzer --- GameC
+Buzzer --- GameD
+
+@enduml

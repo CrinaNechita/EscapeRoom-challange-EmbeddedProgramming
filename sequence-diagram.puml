@@ -1,0 +1,33 @@
+@startuml
+participant Player
+participant GameA
+participant LCD
+participant ButtonSensor
+
+Player -> GameA: Start game
+activate GameA
+activate ButtonSensor
+activate LCD
+
+GameA -> LCD: Display randomly assigned arrow
+loop Until 3 rounds are won or time is up
+    GameA -> LCD: Move the square to right/left
+    GameA -> ButtonSensor: Check for button press
+
+    ButtonSensor --> GameA: Button pressed
+    alt Button pressed
+        GameA -> GameA: Check if square is aligned with arrow
+        alt Square aligned with arrow
+            GameA -> GameA: Randomly (re)allocate arrow and increase square speed
+            GameA -> GameA: Check if 3 rounds were won
+            alt 3 rounds won
+                GameA -> LCD: Display time passed in milliseconds
+            end
+        end
+       end
+end
+
+deactivate ButtonSensor
+deactivate LCD
+deactivate GameA
+@enduml

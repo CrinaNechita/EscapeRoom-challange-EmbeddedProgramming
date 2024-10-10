@@ -1,0 +1,44 @@
+@startuml
+participant Player
+participant GameC
+participant Buzzer
+participant Whadda
+
+Player -> GameC: Start game
+activate GameC
+GameC -> Buzzer: Play song
+activate Buzzer
+
+loop Until player's song is correct or time is up
+    Player -> Whadda: Press button
+    Whadda -> GameC: Button pressed
+
+    alt "Player wants to hear the song again"
+        GameC -> Buzzer: Replay song
+    else "Player wants to play a note"
+        GameC -> Buzzer: Play corresponding note
+        GameC -> GameC: Store note and length
+
+        alt "Player wants to wipe and try again"
+            GameC -> GameC: Reset notes played
+        end
+    end
+
+    alt "Player's song is complete"
+        GameC -> GameC: Check if song is correct
+
+        alt "Song is correct"
+            GameC -> Whadda: Display "You won"
+            break
+        else "Song is incorrect"
+            GameC -> Whadda: Display "Try again"
+            GameC -> GameC: Reset notes played
+        end
+    end
+end
+end
+
+deactivate Buzzer
+deactivate Whadda
+deactivate GameC
+@enduml

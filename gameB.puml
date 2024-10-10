@@ -1,0 +1,33 @@
+@startuml
+participant Player
+participant GameB
+participant Whadda
+activate Whadda
+activate GameB
+
+Player -> GameB: Start game
+GameB -> Whadda: Display random decimal number
+
+
+loop Until 3 rounds are won or time ends
+    Player -> Whadda: Press button
+    Whadda -> GameB: Button pressed
+    GameB -> Whadda: Light corresponding LED
+    GameB -> GameB: Check input
+    alt Input is correct
+        GameB -> Whadda: Display "You won"
+        GameB -> GameB: Increase difficulty
+        GameB -> Whadda: Display random decimal number
+        GameB -> GameB: Wipe try
+        break
+    else Input is incorrect
+        GameB -> Whadda: Display "Try again"
+        GameB -> Whadda: Display new random decimal number
+        GameB -> GameB: Wipe try
+    end
+end
+end
+
+deactivate Whadda
+deactivate GameB
+@enduml

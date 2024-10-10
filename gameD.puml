@@ -1,0 +1,25 @@
+@startuml
+participant Player
+participant GameD
+participant Buzzer
+participant Potentiometer
+
+Player -> GameD: Start game
+activate GameD
+GameD -> GameD: Generate random note
+    GameD -> Buzzer: Play note
+loop until player gets the sound right 3 times or time runs out
+
+    Player -> Potentiometer: Adjust potentiometer
+    Potentiometer -> GameD: Read value
+    alt Sound is correct
+        GameD -> GameD: Increment correct sound count
+        GameD -> GameD: Widen sounds range
+        GameD -> GameD: Generate another random note
+        GameD -> Buzzer: Play new note
+    end
+end
+
+GameD -> Player: Display "You won"
+deactivate GameD
+@enduml
